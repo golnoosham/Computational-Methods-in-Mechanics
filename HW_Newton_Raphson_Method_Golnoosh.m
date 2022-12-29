@@ -17,7 +17,7 @@ phi_1 = deg2rad(30);
 syms theta d 
 
 F_cons = [a * cos(phi_1) + b * cos(theta) - d;a * sin(phi_1) - b * sin(theta)];
-% F2 = a * sin(phi_1) - b * sin(theta);
+
 [theta, d] = solve(F_cons(1), F_cons(2), [theta, d]);
 
 theta_0 = double(theta(2));
