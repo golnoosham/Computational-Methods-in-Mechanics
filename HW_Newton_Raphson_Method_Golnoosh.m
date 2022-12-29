@@ -8,12 +8,21 @@ clc;
 
 a = 0.1; 
 b = 0.2;
-omega = 1; 
+omega = -1; 
 error = 1e-9;
 t = linspace(0, 1, 101);
-X = [pi; 0]; 
+ 
+phi_1 = deg2rad(30);
 
+syms theta d 
 
+F_cons = [a * cos(phi_1) + b * cos(theta) - d;a * sin(phi_1) - b * sin(theta)];
+% F2 = a * sin(phi_1) - b * sin(theta);
+[theta, d] = solve(F_cons(1), F_cons(2), [theta, d]);
+
+theta_0 = double(theta(2));
+d_0 = double(d(2));
+X = [theta_0; d_0];
 
 for i=1:length(t)
     phi = pi/6 + omega * t(i);
@@ -24,8 +33,8 @@ for i=1:length(t)
 
     [X, iteration_counter] = NewtonRaphson_method(F, J, X, error);
 
-     dFt = [-a * omega * sin(omega * t(i))
-             a * omega * cos(omega * t(i))];
+     dFt = [-a * omega * sin(omega * t(i)+pi/6)
+             a * omega * cos(omega * t(i)+pi/6)];
 
     dFq = [-b * sin(X(1)), -1
            -b * cos(X(1)), 0];
